@@ -162,6 +162,8 @@ EN este ejemplo usamos bloques para el método each e imprime
 ![Alt text](image-35.png)
 
 
+Ejemplo usando eval y command line
+
 ```ruby
 arguments = ARGV
 restulado = eval(arguments[0])
