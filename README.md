@@ -72,6 +72,55 @@ Ahora tenemos que indicar como se realizará el rebase, en este caso utilizando 
 ![Alt text](image-11.png)
 
 ### Pregunta 2
+Tenemos el siguiente modelo User
+
+```ruby
+class User < ActiveRecord::Base
+    validates :username, :presence => true
+    validate :username_format
+end
+```
+
+1. ¿Qué pasa si tenemos @user sin nomobre de usuario y llamamos a @user.valid?? ¿Qué guardará @user.save?
+
+Al usar el método valid nos aseguramos que ha superado las validaciones definidas, en este caso al no tener nombre de usuario no superará la validación, por lo tanto no guardará y el user save será false
+
+2. Implementa username_format. Para que el nombre de usuario comience con una letra y tenga como máximo 10 caracteres de largo.
+
+```ruby
+def username_format
+    if username.present? and not username[0].match(/[a-zA-Z]/)
+        errors.add(:username, "El nombre debe comenzar con una letra")
+    end
+
+    if username.present? and username.length > 10
+        errors.add(:username, "El nombre debe tener como máximo 10 caracteres de largo")
+    end
+end
+```
+
+Donde hacemos usos de expresiones regulares para validar el primer caracter de username y la sentencia present?, de la misma manera el 
+
+![Alt text](image-33.png)
+
+### Pregunta 3
+
+
+### Pregunta 4
+
+
+### Pregunta 5
+¿Cuándo debería utilizar la metaprogramación basada en eval en lugar de la metaprogramación basada en bloques?
+
+La metaprogramación basada en eval funciona cuando, valga la redundancia, evaluamos una cadena de carácteres como si fuera código, en cambio la metaprogramación basada en bloques recibe un fragmento de código como parámetro. Eval sería más usado en un contexto de comandos, mientras que bloques sería más utilizado para agregar funcionalidades a estructuras, como el ejemplo del árbol binario de las prácticas pasadas.
+
+```ruby
+arguments = ARGV
+
+restulado = eval(arguments[0])
+
+puts("El resultado es: #{restulado}")
+```
 
 
 
@@ -81,4 +130,79 @@ Ahora tenemos que indicar como se realizará el rebase, en este caso utilizando 
 Utilizando el repositorio brindado se realizará la siguiente actividad.
 
 El objetivo de esta actividad es crear un controlador que reciba la solicitud del usuario y un modelo que llama al servicio TMDb remoto para obtener información de la película-
+
+Realizamos el `bundle install --without production`
+
+![Alt text](image-12.png)
+
+Pero luego nos solicita agregar las gemas de `faraday`, `rails-controller-testing`, `guard-rspec`.
+
+![Alt text](image-13.png)
+
+y volvemos a ejecutar el `bundle install --without production`
+
+![Alt text](image-14.png)
+
+Ejecutamos el comando `rails generate rspec:install` para asegurarnos de que los archivos rspec estén en su lugar.
+
+![Alt text](image-15.png)
+
+Agregamos el `require 'byebug'` en la parte superior para acceder al depurador
+
+![Alt text](image-16.png)
+
+Finalmente corremos el comando `rake db:migrate` para migrar la base de datos y `rails server` para correr el programa.
+
+![Alt text](image-17.png)
+
+Verificamos que funcione correctamente
+
+![Alt text](image-18.png)
+
+Al intentar crear una película nos sale el siguiente error:
+
+![Alt text](image-19.png)
+
+Agregamos el siguiente código dado que no definido movie_params en el `movies_controller.rb`
+
+
+![Alt text](image-21.png)
+
+
+Y ahora funciona correctamente:
+
+![Alt text](image-20.png)
+
+#### Paso 1
+
+Creamos el controlador `search_tmdb` utilizando el comando `rails generate controller search_tmdb`, el cual nos crerará el controlador, una vista, un helper, un requet, su archivo js y su archivo scss.
+
+![Alt text](image-22.png)
+
+
+Luego en routes.rb agregaremos la ruta
+
+![Alt text](image-25.png)
+
+Ya nos redirecciona a la página pero no está completada aún.
+
+![Alt text](image-24.png)
+
+Agregamos el search_tmdb_path, el método post para enviar información al servidor y tmdb_form como identificador al form_tag. 
+
+![Alt text](image-29.png)
+
+También agregamos un botón para ir desde la página de inicio hacia el search.
+
+![Alt text](image-30.png)
+
+En la página se visualiza de la siguiente manera
+
+![Alt text](image-31.png)
+
+Y al dar a return movies
+
+![Alt text](image-32.png)
+
+Tenemos el botón search tmdb para ir hacia la búsqueda.
 

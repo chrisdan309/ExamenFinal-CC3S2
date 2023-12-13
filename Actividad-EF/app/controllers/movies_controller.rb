@@ -67,5 +67,10 @@ class MoviesController < ApplicationController
     def sort_by
       params[:sort_by] || session[:sort_by] || 'id'
     end
+
+    def movie_params
+      params.require(:movie)
+      params[:movie].permit(:title,:rating,:release_date)
+    end
   end
   
