@@ -103,10 +103,6 @@ Donde hacemos usos de expresiones regulares para validar el primer caracter de u
 
 ![Alt text](image-33.png)
 
-### Pregunta 3
-
-
-### Pregunta 4
 
 
 ### Pregunta 5
@@ -115,14 +111,63 @@ Donde hacemos usos de expresiones regulares para validar el primer caracter de u
 La metaprogramación basada en eval funciona cuando, valga la redundancia, evaluamos una cadena de carácteres como si fuera código, en cambio la metaprogramación basada en bloques recibe un fragmento de código como parámetro. Eval sería más usado en un contexto de comandos, mientras que bloques sería más utilizado para agregar funcionalidades a estructuras, como el ejemplo del árbol binario de las prácticas pasadas.
 
 ```ruby
-arguments = ARGV
+class BinaryTree
+  attr_accessor :valor, :izquierda, :derecha
 
-restulado = eval(arguments[0])
+  def initialize()
+    @valor = nil
+    @izquierda = nil
+    @derecha = nil
+  end
 
-puts("El resultado es: #{restulado}")
+  def << (element)
+    if @valor.nil?
+      @valor = element
+    elsif element <= @valor
+      if @izquierda.nil?
+        @izquierda = BinaryTree.new
+      end
+      @izquierda << element
+    else
+      if @derecha.nil?
+        @derecha = BinaryTree.new
+      end
+      @derecha << element
+    end
+  end
+
+  def empty?
+    @valor.nil?
+  end
+
+  def each(&block)
+    @izquierda.each(&block) unless @izquierda.nil?
+    yield @valor
+    @derecha.each(&block) unless @derecha.nil?
+  end
+
+end
+
+arbol = BinaryTree.new
+arbol << 5
+arbol << 3
+arbol << 7
+arbol.each { |x| puts x*2 }
+
+
 ```
 
+EN este ejemplo usamos bloques para el método each e imprime
 
+![Alt text](image-35.png)
+
+
+```ruby
+arguments = ARGV
+restulado = eval(arguments[0])
+puts("El resultado es: #{restulado}")
+```
+![Alt text](image-34.png)
 
 
 
